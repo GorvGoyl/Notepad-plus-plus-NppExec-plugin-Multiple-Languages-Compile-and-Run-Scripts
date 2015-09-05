@@ -1,25 +1,25 @@
-npp_console 1						//open console
-NPP_CONSOLE -						//disable output of commands
-npe_console m-						//disable unnecessary output
+npp_console 1				//open console
+NPP_CONSOLE -				//disable output of commands
+npe_console m-				//disable unnecessary output
 con_colour bg= 191919 fg= F5F5F5 	//set console colors
-npp_save							//save the file
-cd $(CURRENT_DIRECTORY)				//follow current directory
-NPP_CONSOLE +						//enable output
-IF $(EXT_PART)==.c GOTO C			//if .c file goto C label
+npp_save				//save the file
+cd $(CURRENT_DIRECTORY)			//follow current directory
+NPP_CONSOLE +				//enable output
+IF $(EXT_PART)==.c GOTO C		//if .c file goto C label
 IF $(EXT_PART)==.cpp GOTO CPP		//if .cpp file goto CPP label
 IF $(EXT_PART)==.java GOTO JAVA		//if .java file goto JAVA label
-IF $(EXT_PART)==.cs GOTO C#			//if .cs file goto C# label
+IF $(EXT_PART)==.cs GOTO C#		//if .cs file goto C# label
 IF $(EXT_PART)==.py GOTO PYTHON		//if .py file goto PYTHON label
 echo FILE SAVED
-GOTO EXITSCRIPT						// else treat it as a text file and goto EXITSCRIPT
+GOTO EXITSCRIPT				// else treat it as a text file and goto EXITSCRIPT
 //C label
 :C																	
-cmd /C if exist "$(NAME_PART).exe" cmd /c del "$(NAME_PART).exe"	//delete existing executable file if exists
-gcc "$(FILE_NAME)" -o $(NAME_PART)									//compile file
-IF $(EXITCODE) != 0 GOTO EXITSCRIPT									//if any compilation error then abort
-echo C CODE COMPILED SUCCESSFULLY:									//print message on console
-NPP_RUN cmd /c $(NAME_PART) & COLOR 0A	& PAUSE						//run file in cmd, set color to green and pause cmd after output
-GOTO EXITSCRIPT														//finally exits
+cmd /C if exist "$(NAME_PART).exe" cmd /c del "$(NAME_PART).exe"//delete existing executable file if exists
+gcc "$(FILE_NAME)" -o $(NAME_PART)				//compile file
+IF $(EXITCODE) != 0 GOTO EXITSCRIPT				//if any compilation error then abort
+echo C CODE COMPILED SUCCESSFULLY:				//print message on console
+NPP_RUN cmd /c $(NAME_PART) & COLOR 0A	& PAUSE			//run file in cmd, set color to green and pause cmd after output
+GOTO EXITSCRIPT							//finally exits
 
 :CPP
 cmd /C if exist "$(NAME_PART).exe" cmd /c del "$(NAME_PART).exe"
@@ -46,7 +46,7 @@ npp_run cmd /c  $(NAME_PART) & COLOR 0A & PAUSE
 GOTO EXITSCRIPT
 
 :PYTHON
-echo RUNNING PYTHON SCRIPT IN CMD:							//it's a script so no need to compile
+echo RUNNING PYTHON SCRIPT IN CMD:				//python is a script so no need to compile
 npp_run cmd /c  python $(NAME_PART).py & COLOR 0A & PAUSE
 GOTO EXITSCRIPT
 
