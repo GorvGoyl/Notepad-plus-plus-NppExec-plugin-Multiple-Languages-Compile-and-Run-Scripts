@@ -1,0 +1,72 @@
+npp_console 1				//open console
+NPP_CONSOLE -			//disable output of commands
+npe_console -- m-				//disable unnecessary output
+con_colour bg= 191919 fg= F5F5F5 	//set console colors
+npp_save				//save the file
+cd $(CURRENT_DIRECTORY)			//follow current directory
+NPP_CONSOLE +			//enable output
+IF $(EXT_PART)==.c GOTO C		//if .c file goto C label
+IF $(EXT_PART)==.cpp GOTO CPP		//if .cpp file goto CPP label
+IF $(EXT_PART)==.java GOTO JAVA		//if .java file goto JAVA label
+IF $(EXT_PART)==.cs GOTO C#		//if .cs file goto C# label
+IF $(EXT_PART)==.py GOTO PYTHON		//if .py file goto PYTHON label
+echo FILE SAVED
+GOTO EXITSCRIPT				// else treat it as a text file and goto EXITSCRIPT
+//C label
+:C
+NPP_CONSOLE -
+npe_console v+ 
+cmd /c if exist "$(NAME_PART).exe" echo Exists
+npe_console v-
+NPP_CONSOLE +
+if "$(OUTPUTL)" != "Exists" goto NOT_FOUND
+echo C CODE OUTPUT:														
+NPP_RUN cmd /c $(NAME_PART) & COLOR 0A & PAUSE
+GOTO EXITSCRIPT	
+						
+
+:CPP
+NPP_CONSOLE -
+npe_console v+ 
+cmd /c if exist "$(NAME_PART).exe" echo Exists
+npe_console v-
+NPP_CONSOLE +
+if "$(OUTPUTL)" != "Exists" goto NOT_FOUND
+echo C++ CODE OUTPUT:														
+NPP_RUN cmd /c $(NAME_PART) & COLOR 0A & PAUSE
+GOTO EXITSCRIPT	
+
+:JAVA
+NPP_CONSOLE -
+npe_console v+ 
+cmd /C if exist "$(NAME_PART).class" echo Exists
+npe_console v-
+NPP_CONSOLE +
+if "$(OUTPUTL)" != "Exists" goto NOT_FOUND
+echo JAVA CODE OUTPUT:														
+NPP_RUN cmd /c java $(NAME_PART) & COLOR 0A & PAUSE
+GOTO EXITSCRIPT	
+
+:C#
+NPP_CONSOLE -
+npe_console v+ 
+cmd /c if exist "$(NAME_PART).exe" echo Exists
+npe_console v-
+NPP_CONSOLE +
+if "$(OUTPUTL)" != "Exists" goto NOT_FOUND
+echo C# CODE OUTPUT:														
+NPP_RUN cmd /c $(NAME_PART) & COLOR 0A & PAUSE
+GOTO EXITSCRIPT	
+
+:PYTHON
+echo PYTHON SCRIPT OUTPUT:				//python is a script so no need to compile
+
+NPP_RUN cmd /c python $(NAME_PART).py & COLOR 0A & PAUSE
+GOTO EXITSCRIPT
+
+:NOT_FOUND
+echo EXECUTABLE NOT FOUND:			
+			
+GOTO EXITSCRIPT	
+:EXITSCRIPT
+// that's all, folks!
